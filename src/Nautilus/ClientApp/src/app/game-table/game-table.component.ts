@@ -46,8 +46,9 @@ export class GameTableComponent {
     })
   }
 
-  selectAnswer(index: number) {
-    this.currentCard.answers[index].selected = true;
+  selectAnswer(answer) {
+    this.currentCard.answers.forEach(a => a.selected = false);
+    answer.selected = true;
   }
 }
 

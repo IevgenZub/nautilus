@@ -17,8 +17,7 @@
     <ul style="list-style: none;">
       <li *ngFor="let answer of currentCard.answers;let i = index">
         <label>
-          <input type="radio" [checked]="answer.selected"
-                 (ngModelChange)="selectAnswer(i)" name="radiogroup" />
+          <input type="radio" [checked]="answer.selected" (change)="selectAnswer(answer)"  name="radiogroup" />
           {{ answer.text }}
         </label>
       </li>
@@ -27,6 +26,6 @@
 </div>
 <div class="row">
   <div class="col">
-    <button class="btn btn-primary" (click)="nextCard()">>></button>
+    <button class="btn btn-primary" (click)="nextCard()">Select</button>
   </div>
 </div>
