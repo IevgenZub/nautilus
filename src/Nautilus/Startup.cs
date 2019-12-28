@@ -64,10 +64,10 @@ namespace Nautilus
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            //if (!env.IsDevelopment())
-            //{
+            if (!env.IsDevelopment())
+            {
                 app.UseSpaStaticFiles();
-            //}
+            }
 
             app.UseRouting();
 
@@ -89,10 +89,10 @@ namespace Nautilus
 
                 spa.Options.SourcePath = "ClientApp";
 
-                // if (env.IsDevelopment())
-                // {
-                //     spa.UseAngularCliServer(npmScript: "start");
-                // }
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
             });
         }
     }
