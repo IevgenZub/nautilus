@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col">
+    <h2>Cards in this story</h2>
+  </div>
+  <div class="col">
+    <a class="btn btn-primary float-right" [routerLink]="['/card-edit']">New Card</a>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <ul style="list-style: none;">
+      <li *ngFor="let existingCard of cards;let i = index">
+        <label>
+          <input type="radio" (change)="selectCard(existingCard)" name="radiogroup" />
+          {{ existingCard.header }}
+        </label>
+      </li>
+    </ul>
+  </div>
+</div>

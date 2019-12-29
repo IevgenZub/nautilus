@@ -14,6 +14,8 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { GameTableComponent } from './game-table/game-table.component';
 import { GameDesignerComponent } from './game-designer/game-designer.component';
 import { CardService } from './card.service';
+import { CardListComponent } from './card-list/card-list.component';
+import { CardEditComponent } from './card-edit/card-edit.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { CardService } from './card.service';
     NavMenuComponent,
     HomeComponent,
     GameTableComponent,
-    GameDesignerComponent
+    GameDesignerComponent,
+    CardListComponent,
+    CardEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -32,6 +36,7 @@ import { CardService } from './card.service';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'game-designer', component: GameDesignerComponent },
+      { path: 'card-edit', component: CardEditComponent }
     ])
   ],
   providers: [

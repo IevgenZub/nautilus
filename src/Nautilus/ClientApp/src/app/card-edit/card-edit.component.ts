@@ -1,21 +1,19 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
-import { CardService } from '../card.service';
 import { Card } from '../card';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { CardService } from '../card.service';
 
 @Component({
-  selector: 'app-game-designer',
-  templateUrl: './game-designer.component.html',
-  styleUrls: ['./game-designer.component.css']
+  selector: 'app-card-edit',
+  templateUrl: './card-edit.component.html',
+  styleUrls: ['./card-edit.component.css']
 })
-export class GameDesignerComponent {
+export class CardEditComponent {
   card: Card;
-  cards: Card[];
   cardForm: FormGroup; 
 
   constructor(private formBuilder: FormBuilder, private cardService: CardService) {
-    this.cards = this.cardService.getSavedCards();
-    this.card = new Card();   
+    this.card = new Card();
 
     this.cardForm = formBuilder.group({
       header: new FormControl(this.card.header, [Validators.required, Validators.minLength(3)]),
@@ -36,13 +34,6 @@ export class GameDesignerComponent {
     this.card.story = formValue.story;
 
     this.cardService.saveCard(this.card);
-    this.cards = this.cardService.getSavedCards();
-  }
-
-
-  selectCard(card: Card) {
-    this.card = card;
-    this.resetForm();
   }
 
   resetForm() {

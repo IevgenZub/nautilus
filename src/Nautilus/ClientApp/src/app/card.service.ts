@@ -11,8 +11,6 @@ export class CardService {
   
   constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
     if (!this.storage.has(this.SAVED_CARDS_KEY)) {
-      var firstCard = new Card();
-      firstCard.id = 1;
       this.storage.set(this.SAVED_CARDS_KEY, []);
     } 
   }
