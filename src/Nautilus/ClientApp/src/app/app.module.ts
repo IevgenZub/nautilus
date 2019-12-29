@@ -16,6 +16,8 @@ import { GameDesignerComponent } from './game-designer/game-designer.component';
 import { CardService } from './card.service';
 import { CardListComponent } from './card-list/card-list.component';
 import { CardEditComponent } from './card-edit/card-edit.component';
+import { Grid } from 'ag-grid-community';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { CardEditComponent } from './card-edit/card-edit.component';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    AgGridModule.withComponents([]),
     ReactiveFormsModule,
     ApiAuthorizationModule,
     RouterModule.forRoot([

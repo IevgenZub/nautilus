@@ -8,13 +8,9 @@
 </div>
 <div class="row">
   <div class="col">
-    <ul style="list-style: none;">
-      <li *ngFor="let existingCard of cards;let i = index">
-        <label>
-          <input type="radio" (change)="selectCard(existingCard)" name="radiogroup" />
-          {{ existingCard.header }}
-        </label>
-      </li>
-    </ul>
+      <ag-grid-angular style="width: 100%; height: 400px;"
+                       class="ag-theme-balham"
+                       [gridOptions]="gridOptions">
+      </ag-grid-angular>
   </div>
 </div>
