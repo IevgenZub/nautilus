@@ -11,7 +11,9 @@ export class CardService {
   
   constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
     if (!this.storage.has(this.SAVED_CARDS_KEY)) {
-      this.storage.set(this.SAVED_CARDS_KEY, [new Card()]);
+      var firstCard = new Card();
+      firstCard.id = 1;
+      this.storage.set(this.SAVED_CARDS_KEY, []);
     } 
   }
 
@@ -20,11 +22,18 @@ export class CardService {
   }
 
   saveCard(card: Card) {
-    var savedCards = this.storage.get(this.SAVED_CARDS_KEY);
+    var savedCards = <Card[]> this.storage.get(this.SAVED_CARDS_KEY);
+    var existing = savedCards.filter(c => c.id == card.id)[0];
 
-    savedCards[0].header = card.header;
-    savedCards[0].title = card.title;
-    savedCards[0].story = card.story;
+    if (existing) {
+      existing.header = card.header;
+      existing.title = card.title;
+      existing.story = card.story;
+    }
+    else {
+      card.id = savedCards.length + 1;
+      savedCards.push(card);
+    }
 
     this.storage.set(this.SAVED_CARDS_KEY, savedCards);
   }

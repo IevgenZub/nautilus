@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
 import { CardService } from '../card.service';
-import { Card } from '../card';
+import { Card, Answer } from '../card';
 
 @Component({
   selector: 'app-game-designer',
@@ -10,11 +10,12 @@ import { Card } from '../card';
 })
 export class GameDesignerComponent {
   card: Card;
+  cards: Card[];
   cardForm: FormGroup; 
 
   constructor(private formBuilder: FormBuilder, private cardService: CardService) {
-    let cards = cardService.getSavedCards();
-    this.card = (cards && cards.length > 0) ? cards[0] : new Card();
+    this.cards = this.cardService.getSavedCards();
+    this.card = new Card();   
 
     this.cardForm = formBuilder.group({
       header: new FormControl(this.card.header, [Validators.required, Validators.minLength(3)]),
@@ -22,7 +23,7 @@ export class GameDesignerComponent {
       story: new FormControl(this.card.story, [Validators.required, Validators.minLength(3)])
     });
 
-    this.cardForm.setValue({ header: this.card.header, title: this.card.title, story: this.card.story });
+    this.resetForm();
   }
 
   get header() { return this.cardForm.get('header'); }
@@ -30,6 +31,21 @@ export class GameDesignerComponent {
   get story() { return this.cardForm.get('story'); }
 
   onSubmit(formValue: Card) {
-    this.cardService.saveCard(formValue);
+    this.card.header = formValue.header;
+    this.card.title = formValue.header;
+    this.card.story = formValue.story;
+
+    this.cardService.saveCard(this.card);
+    this.cards = this.cardService.getSavedCards();
+  }
+
+
+  selectCard(card: Card) {
+    this.card = card;
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.cardForm.setValue({ header: this.card.header, title: this.card.title, story: this.card.story });
   }
 }

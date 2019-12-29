@@ -1,4 +1,5 @@
 export class Card {
+  id: number;
   header: string = '';
   title: string = '';
   story: string = '';
@@ -6,13 +7,14 @@ export class Card {
 }
 
 export class Player {
+  id: number;
   name: string = '';
   state: string[] = [];
 }
 
 export class Policy {
   condition: string = '';
-  cardTitle: string = '';
+  cardId: number;
 }
 
 export class Answer {

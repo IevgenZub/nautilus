@@ -9,6 +9,7 @@ import { Player, Card } from '../card';
 export class GameTableComponent {
   public player: Player = new Player();
   public currentCard: Card = {
+    id: 1,
     story: "A long time ago in a galaxy far, far away, Jar Jar Binks had a fungal infection. The history of poisoning in the future: lessons from Star Trek. Parachute use to prevent death and major trauma related to gravitational challenge...",
     header: "Introduction",
     title: "Let's get you into the story!",
@@ -18,7 +19,7 @@ export class GameTableComponent {
         policies: [
           {
             condition: "Status=OK",
-            cardTitle: ""
+            cardId: 0
           }
         ],
         updates: ["Status=OK"],
@@ -29,7 +30,7 @@ export class GameTableComponent {
         policies: [
           {
             condition: "Status=OK",
-            cardTitle: ""
+            cardId: 0
           }],
         updates: ["Status=OK"],
         selected: false
