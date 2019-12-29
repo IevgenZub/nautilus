@@ -13,6 +13,7 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { GameTableComponent } from './game-table/game-table.component';
 import { GameDesignerComponent } from './game-designer/game-designer.component';
+import { CardService } from './card.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { GameDesignerComponent } from './game-designer/game-designer.component';
     ])
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    CardService
   ],
   bootstrap: [AppComponent]
 })

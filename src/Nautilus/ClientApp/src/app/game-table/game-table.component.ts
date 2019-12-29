@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Player, Card } from '../card';
 
 @Component({
   selector: 'app-game-table',
@@ -17,8 +18,9 @@ export class GameTableComponent {
         policies: [
           {
             condition: "Status=OK",
-            card: { header:"Introduction", title: "You the boss", story: "Okay okay...",  answers: null }
-          }],
+            cardTitle: ""
+          }
+        ],
         updates: ["Status=OK"],
         selected: true
       },
@@ -27,7 +29,7 @@ export class GameTableComponent {
         policies: [
           {
             condition: "Status=OK",
-            card: { header: "Introduction", title: "Wait", story: "Are you sure you we have time for this?", answers: null }
+            cardTitle: ""
           }],
         updates: ["Status=OK"],
         selected: false
@@ -40,7 +42,7 @@ export class GameTableComponent {
     this.player.state = this.player.state.concat(answer.updates);
     answer.policies.forEach(p => {
       if (this.player.state.includes(p.condition)) {
-        this.currentCard = p.card;
+        //this.currentCard = p.card;
         return;
       }
     })
@@ -51,29 +53,4 @@ export class GameTableComponent {
     answer.selected = true;
   }
 }
-
-class Player {
-  name: string;
-  state: string[] = [];
-}
-
-class Policy {
-  condition: string;
-  card: Card;
-}
-
-class Answer {
-  text: string;
-  updates: string[];
-  policies: Policy[];
-  selected: boolean;
-}
-
-class Card {
-  header: string;
-  title: string;
-  story: string;
-  answers: Answer[];
-}
-
 
