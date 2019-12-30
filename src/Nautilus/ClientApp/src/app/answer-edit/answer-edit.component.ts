@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Answer } from '../card';
+import { Answer } from '../story';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({

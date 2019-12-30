@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Player, Card } from '../card';
+import { Player, Card, Story } from '../story';
 import { faArrowRight, faUndo } from '@fortawesome/free-solid-svg-icons';
-import { CardService } from '../card.service';
+import { StoryService } from '../story.service';
 
 @Component({
   selector: 'app-game-table',
@@ -11,34 +11,36 @@ import { CardService } from '../card.service';
 export class GameTableComponent {
   faArrowRight = faArrowRight;
   faUndo = faUndo;
-  public player: Player = new Player();
-  public currentCard: Card;
+  player: Player = new Player();
+  story: Story;
+  currentCard: Card;
 
-  constructor(private cardService: CardService) {
+  constructor(private storyService: StoryService) {
     this.restart();
   }
 
   nextCard() {
     var answer = this.currentCard.answers.filter(a => a.selected == true)[0];
-    var nextCard = this.cardService.getSavedCards().filter(c => c.title == answer.cardId)[0];
+    var nextCard = this.story.cards.filter(c => c.title == answer.cardId)[0];
     if (nextCard) {
       this.currentCard = nextCard;
     }
   }
 
   restart() {
-    var savedCards = this.cardService.getSavedCards();
-    if (savedCards && savedCards.length > 0) {
-      this.currentCard = savedCards[0];
+    this.story = this.storyService.getStories()[0];
+    if (this.story) {
+      this.currentCard = this.story.cards[0];
     }
     else {
-      this.currentCard = {
-        id: 1,
-        story: "A long time ago in a galaxy far, far away, Jar Jar Binks had a fungal infection. The history of poisoning in the future: lessons from Star Trek. Parachute use to prevent death and major trauma related to gravitational challenge...",
-        header: "Introduction",
-        title: "Let's get you into the story!",
-        answers: [
-          {
+      this.story = <Story>{
+        name: "Default",
+        entryCardId: "Let's get you into the story!",
+        cards: [{
+          header: "Introduction",
+          title: "Let's get you into the story!",
+          description: "A long time ago in a galaxy far, far away, Jar Jar Binks had a fungal infection. The history of poisoning in the future: lessons from Star Trek. Parachute use to prevent death and major trauma related to gravitational challenge...",
+          answers: [{
             decision: "Common... I don't have time for this...",
             cardId: "Let's get you into the story!",
             selected: false
@@ -47,11 +49,31 @@ export class GameTableComponent {
             decision: "I'm here to listen!",
             cardId: "Let's get you into the story!",
             selected: true
-          }
-        ]
+          }]
+        }]
       };
 
-      this.cardService.saveCard(this.currentCard);
+      this.currentCard = this.story.cards.filter(c => c.title == this.story.entryCardId)[0]; 
+      this.storyService.saveStory(this.story);
+      this.storyService.saveStory(<Story>{
+        name: "Another default",
+        entryCardId: "Another Let's get you into the story!",
+        cards: [{
+          header: "Another Introduction",
+          title: "Another Let's get you into the story!",
+          description: "Another A long time ago in a galaxy far, far away, Jar Jar Binks had a fungal infection. The history of poisoning in the future: lessons from Star Trek. Parachute use to prevent death and major trauma related to gravitational challenge...",
+          answers: [{
+            decision: "Another Common... I don't have time for this...",
+            cardId: "Another Let's get you into the story!",
+            selected: false
+          },
+          {
+            decision: "Another I'm here to listen!",
+            cardId: "Another Let's get you into the story!",
+            selected: true
+          }]
+        }]
+      });
     }
   }
 

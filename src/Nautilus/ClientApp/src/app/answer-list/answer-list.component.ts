@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Card, Answer } from '../card';
+import { Card, Answer } from '../story';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({

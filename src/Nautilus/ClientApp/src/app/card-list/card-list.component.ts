@@ -1,6 +1,6 @@
-import { Component} from '@angular/core';
-import { Card } from '../card';
-import { CardService } from '../card.service';
+import { Component, Input} from '@angular/core';
+import { Card, Story } from '../story';
+import { StoryService } from '../story.service';
 import { GridOptions } from 'ag-grid-community';
 import { ActionRendererComponent } from '../action-renderer/action-renderer.component';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +11,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./card-list.component.css']
 })
 export class CardListComponent {
-  cards: Card[];
+  _story: Story;
   faPlus = faPlus;
   gridOptions = <GridOptions>{
     enableRangeSelection: true,
@@ -22,7 +22,7 @@ export class CardListComponent {
       },
       { headerName: "Header", field: "header", width: 150 },
       { headerName: "Title", field: "title", width: 200 },
-      { headerName: "Story", field: "story", width: 300 }
+      { headerName: "Description", field: "description", width: 300 }
     ],
     defaultColDef: { sortable: true, resizable: true, filter: true },
     deltaRowDataMode: true,
@@ -30,14 +30,21 @@ export class CardListComponent {
       return data.id;
     },
     onGridReady: () => {
-      this.gridOptions.api.setRowData(this.cards);
+      this.gridOptions.api.setRowData(this._story.cards);
     },
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit();
-      params.api.setSortModel([{ colId: 'header', sort: 'desc' }]);
+      params.api.setSortModel([{ colId: 'id', sort: 'desc' }]);
     }
   };
-  constructor(private cardService: CardService) {
-    this.cards = this.cardService.getSavedCards();
+
+  @Input()
+  set story(story: Story) {
+    this._story = story;
+    if (this.gridOptions.api) {
+      this.gridOptions.api.setRowData(this._story.cards);
+    }
   }
+
+  get story(): Story { return this._story; }
 }

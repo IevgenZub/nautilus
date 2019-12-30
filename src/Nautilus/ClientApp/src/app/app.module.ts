@@ -12,16 +12,18 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { GameTableComponent } from './game-table/game-table.component';
-import { GameDesignerComponent } from './game-designer/game-designer.component';
-import { CardService } from './card.service';
+import { StoryService } from './story.service';
 import { CardListComponent } from './card-list/card-list.component';
 import { CardEditComponent } from './card-edit/card-edit.component';
-import { Grid } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
 import { ActionRendererComponent } from './action-renderer/action-renderer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AnswerListComponent } from './answer-list/answer-list.component';
 import { AnswerEditComponent } from './answer-edit/answer-edit.component';
+import { StoryEditComponent } from './story-edit/story-edit.component';
+import { StoryListComponent } from './story-list/story-list.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -29,12 +31,13 @@ import { AnswerEditComponent } from './answer-edit/answer-edit.component';
     NavMenuComponent,
     HomeComponent,
     GameTableComponent,
-    GameDesignerComponent,
     CardListComponent,
     CardEditComponent,
     ActionRendererComponent,
     AnswerListComponent,
-    AnswerEditComponent
+    AnswerEditComponent,
+    StoryEditComponent,
+    StoryListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -44,15 +47,16 @@ import { AnswerEditComponent } from './answer-edit/answer-edit.component';
     AgGridModule.withComponents([ActionRendererComponent]),
     ReactiveFormsModule,
     ApiAuthorizationModule,
+    NgbModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'game-designer', component: GameDesignerComponent },
+      { path: 'story-list', component: StoryListComponent },
       { path: 'card-edit', component: CardEditComponent }
     ])
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
-    CardService
+    StoryService
   ],
   bootstrap: [AppComponent]
 })
