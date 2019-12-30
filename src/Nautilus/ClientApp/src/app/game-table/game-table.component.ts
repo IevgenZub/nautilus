@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Player, Card } from '../card';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-game-table',
@@ -7,6 +8,7 @@ import { Player, Card } from '../card';
   styleUrls: ['./game-table.component.css']
 })
 export class GameTableComponent {
+  faArrowRight = faArrowRight;
   public player: Player = new Player();
   public currentCard: Card = {
     id: 1,
