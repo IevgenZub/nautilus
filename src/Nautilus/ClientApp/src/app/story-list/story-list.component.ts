@@ -8,16 +8,10 @@ import { StoryService } from '../story.service';
   styleUrls: ['./story-list.component.css']
 })
 export class StoryListComponent implements OnInit {
-  selectedStory: Story;
   stories: Story[];
 
   constructor(private storyService: StoryService) {
     this.stories = this.storyService.getStories();
-    this.selectedStory = this.stories[0];
-  }
-
-  selectStory(story: Story) {
-    this.selectedStory = story;
   }
 
   ngOnInit() {

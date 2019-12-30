@@ -11,7 +11,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./card-list.component.css']
 })
 export class CardListComponent {
-  _story: Story;
+  selectedStory: Story;
+  stories: Story[];
   faPlus = faPlus;
   gridOptions = <GridOptions>{
     enableRangeSelection: true,
@@ -30,7 +31,7 @@ export class CardListComponent {
       return data.id;
     },
     onGridReady: () => {
-      this.gridOptions.api.setRowData(this._story.cards);
+      this.gridOptions.api.setRowData(this.selectedStory.cards);
     },
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit();
@@ -38,13 +39,13 @@ export class CardListComponent {
     }
   };
 
-  @Input()
-  set story(story: Story) {
-    this._story = story;
-    if (this.gridOptions.api) {
-      this.gridOptions.api.setRowData(this._story.cards);
-    }
+  constructor(private storyService: StoryService) {
+    this.stories = this.storyService.getStories();
+    this.selectedStory = this.stories[0];
   }
 
-  get story(): Story { return this._story; }
+  selectStory(story: Story) {
+    this.selectedStory = story;
+    this.gridOptions.api.setRowData(this.selectedStory.cards);
+  }
 }

@@ -1,11 +1,17 @@
 <div class="row">
   <div class="col">
-    <h2>Cards</h2>
+    <h1>Cards</h1>
   </div>
   <div class="col">
     <a [routerLink]="['/card-edit']" class="btn btn-primary float-right">
       <fa-icon style="color:lightgreen" [icon]="faPlus"></fa-icon>
     </a>
+    <div ngbDropdown style="margin-right:5px;" class="d-inline-block float-right">
+      <button class="btn btn-outline-primary" id="stories" ngbDropdownToggle>{{selectedStory.name}}</button>
+      <div ngbDropdownMenu aria-labelledby="stories">
+        <button *ngFor="let story of stories" (click)="selectStory(story)" ngbDropdownItem>{{ story.name }}</button>
+      </div>
+    </div>
   </div>
 </div>
 <div class="row">
