@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col">
+    <h3>Answers</h3>
+  </div>
+  <div class="col">
+    <button class="btn btn-primary float-right" (click)="addAnswer()">
+      <fa-icon style="color:lightgreen" [icon]="faPlus"></fa-icon>
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <ul>
+      <li *ngFor="let answer of card.answers">
+        <button class="btn btn-link" (click)="selectAnswer(answer)">{{ answer.decision }}</button>
+      </li>
+    </ul>
+  </div>
+  <div class="col">
+    <app-answer-edit [answer]="selectedAnswer" *ngIf="selectedAnswer"></app-answer-edit>
+  </div>
+</div>
+

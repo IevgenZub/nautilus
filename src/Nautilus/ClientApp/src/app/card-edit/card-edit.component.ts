@@ -51,7 +51,6 @@ export class CardEditComponent {
     this.card.story = formValue.story;
 
     this.cardService.saveCard(this.card);
-
     this.router.navigate(['/game-designer'])
   }
 

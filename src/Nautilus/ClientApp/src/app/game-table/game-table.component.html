@@ -18,7 +18,7 @@
       <li *ngFor="let answer of currentCard.answers;let i = index">
         <label>
           <input type="radio" [checked]="answer.selected" (change)="selectAnswer(answer)"  name="radiogroup" />
-          {{ answer.text }}
+          {{ answer.decision }}
         </label>
       </li>
     </ul>

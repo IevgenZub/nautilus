@@ -20,6 +20,8 @@ import { Grid } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
 import { ActionRendererComponent } from './action-renderer/action-renderer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AnswerListComponent } from './answer-list/answer-list.component';
+import { AnswerEditComponent } from './answer-edit/answer-edit.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     GameDesignerComponent,
     CardListComponent,
     CardEditComponent,
-    ActionRendererComponent
+    ActionRendererComponent,
+    AnswerListComponent,
+    AnswerEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

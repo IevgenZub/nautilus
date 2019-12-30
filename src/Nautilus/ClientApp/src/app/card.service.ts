@@ -27,6 +27,7 @@ export class CardService {
       existing.header = card.header;
       existing.title = card.title;
       existing.story = card.story;
+      existing.answers = card.answers;
     }
     else {
       card.id = savedCards.length + 1;

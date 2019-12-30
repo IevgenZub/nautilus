@@ -12,14 +12,8 @@ export class Player {
   state: string[] = [];
 }
 
-export class Policy {
-  condition: string = '';
-  cardId: number;
-}
-
 export class Answer {
-  text: string = '';
-  updates: string[] = [];
-  policies: Policy[] = [];
+  decision: string = '';
+  cardId: string = '';
   selected: boolean = false;
 }

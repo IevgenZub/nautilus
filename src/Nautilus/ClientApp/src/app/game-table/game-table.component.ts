@@ -17,24 +17,13 @@ export class GameTableComponent {
     title: "Let's get you into the story!",
     answers: [
       {
-        text: "Common... I don't have time for this...",
-        policies: [
-          {
-            condition: "Status=OK",
-            cardId: 0
-          }
-        ],
-        updates: ["Status=OK"],
+        decision: "Common... I don't have time for this...",
+        cardId: "1",
         selected: true
       },
       {
-        text: "Tell me more about it!",
-        policies: [
-          {
-            condition: "Status=OK",
-            cardId: 0
-          }],
-        updates: ["Status=OK"],
+        decision: "Tell me more about it!",
+        cardId: "2",
         selected: false
       }
     ]
@@ -42,13 +31,7 @@ export class GameTableComponent {
 
   nextCard() {
     var answer = this.currentCard.answers.filter(a => a.selected == true)[0];
-    this.player.state = this.player.state.concat(answer.updates);
-    answer.policies.forEach(p => {
-      if (this.player.state.includes(p.condition)) {
-        //this.currentCard = p.card;
-        return;
-      }
-    })
+    console.log(answer);
   }
 
   selectAnswer(answer) {
