@@ -2,6 +2,8 @@ import { Component} from '@angular/core';
 import { Card } from '../card';
 import { CardService } from '../card.service';
 import { GridOptions } from 'ag-grid-community';
+import { ActionRendererComponent } from '../action-renderer/action-renderer.component';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-card-list',
@@ -10,12 +12,13 @@ import { GridOptions } from 'ag-grid-community';
 })
 export class CardListComponent {
   cards: Card[];
+  faPlus = faPlus;
   gridOptions = <GridOptions>{
     enableRangeSelection: true,
     columnDefs: [
       {
-        headerName: '', field: 'id', filter: false, sort: false, width: 30//,
-        //cellRendererFramework: ActionCellLinkRendererComponent
+        headerName: '', field: 'id', filter: false, sort: false, width: 30,
+        cellRendererFramework: ActionRendererComponent
       },
       { headerName: "Header", field: "header", width: 150 },
       { headerName: "Title", field: "title", width: 200 },

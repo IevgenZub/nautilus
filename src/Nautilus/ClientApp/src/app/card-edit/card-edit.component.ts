@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Card } from '../card';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { CardService } from '../card.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-edit',
@@ -12,8 +13,24 @@ export class CardEditComponent {
   card: Card;
   cardForm: FormGroup; 
 
-  constructor(private formBuilder: FormBuilder, private cardService: CardService) {
-    this.card = new Card();
+  constructor(
+    private formBuilder: FormBuilder,
+    private cardService: CardService,
+    private activatedRouter: ActivatedRoute,
+    private router: Router,) {
+
+    this.activatedRouter.queryParams.subscribe(params => {
+      if (params['id']) {
+        var existingCards = this.cardService.getSavedCards().filter(c => c.id == params['id']);
+        if (existingCards.length > 0) {
+          this.card = existingCards[0];
+        }
+      }
+    });
+
+    if (!this.card) {
+      this.card = new Card();
+    }
 
     this.cardForm = formBuilder.group({
       header: new FormControl(this.card.header, [Validators.required, Validators.minLength(3)]),
@@ -30,10 +47,12 @@ export class CardEditComponent {
 
   onSubmit(formValue: Card) {
     this.card.header = formValue.header;
-    this.card.title = formValue.header;
+    this.card.title = formValue.title;
     this.card.story = formValue.story;
 
     this.cardService.saveCard(this.card);
+
+    this.router.navigate(['/game-designer'])
   }
 
   resetForm() {

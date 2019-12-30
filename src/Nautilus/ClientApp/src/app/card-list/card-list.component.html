@@ -1,9 +1,11 @@
 <div class="row">
   <div class="col">
-    <h2>Cards in this story</h2>
+    <h2>Cards</h2>
   </div>
   <div class="col">
-    <a class="btn btn-primary float-right" [routerLink]="['/card-edit']">New Card</a>
+    <a [routerLink]="['/card-edit']" class="btn btn-primary float-right">
+      <fa-icon style="color:lightgreen" [icon]="faPlus"></fa-icon>
+    </a>
   </div>
 </div>
 <div class="row">

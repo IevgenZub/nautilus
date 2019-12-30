@@ -18,6 +18,8 @@ import { CardListComponent } from './card-list/card-list.component';
 import { CardEditComponent } from './card-edit/card-edit.component';
 import { Grid } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
+import { ActionRendererComponent } from './action-renderer/action-renderer.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -27,13 +29,15 @@ import { AgGridModule } from 'ag-grid-angular';
     GameTableComponent,
     GameDesignerComponent,
     CardListComponent,
-    CardEditComponent
+    CardEditComponent,
+    ActionRendererComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    AgGridModule.withComponents([]),
+    FontAwesomeModule,
+    AgGridModule.withComponents([ActionRendererComponent]),
     ReactiveFormsModule,
     ApiAuthorizationModule,
     RouterModule.forRoot([
