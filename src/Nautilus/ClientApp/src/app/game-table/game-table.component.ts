@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Player, Card } from '../card';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { CardService } from '../card.service';
 
 @Component({
@@ -10,11 +10,24 @@ import { CardService } from '../card.service';
 })
 export class GameTableComponent {
   faArrowRight = faArrowRight;
+  faUndo = faUndo;
   public player: Player = new Player();
   public currentCard: Card;
 
   constructor(private cardService: CardService) {
-    var savedCards = cardService.getSavedCards();
+    this.restart();
+  }
+
+  nextCard() {
+    var answer = this.currentCard.answers.filter(a => a.selected == true)[0];
+    var nextCard = this.cardService.getSavedCards().filter(c => c.title == answer.cardId)[0];
+    if (nextCard) {
+      this.currentCard = nextCard;
+    }
+  }
+
+  restart() {
+    var savedCards = this.cardService.getSavedCards();
     if (savedCards && savedCards.length > 0) {
       this.currentCard = savedCards[0];
     }
@@ -33,20 +46,12 @@ export class GameTableComponent {
           {
             decision: "I'm here to listen!",
             cardId: "Let's get you into the story!",
-            selected: false
+            selected: true
           }
         ]
       };
 
       this.cardService.saveCard(this.currentCard);
-    }
-  }
-
-  nextCard() {
-    var answer = this.currentCard.answers.filter(a => a.selected == true)[0];
-    var nextCard = this.cardService.getSavedCards().filter(c => c.title == answer.cardId)[0];
-    if (nextCard) {
-      this.currentCard = nextCard;
     }
   }
 

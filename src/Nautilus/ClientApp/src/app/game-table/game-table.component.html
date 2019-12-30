@@ -26,6 +26,7 @@
 </div>
 <div class="row">
   <div class="col">
-    <button class="btn btn-primary" (click)="nextCard()"><fa-icon style="color:lightgreen" [icon]="faArrowRight"></fa-icon></button>
+    <button class="btn btn-primary" *ngIf="currentCard.answers.length > 0" (click)="nextCard()"><fa-icon style="color:lightgreen" [icon]="faArrowRight"></fa-icon></button>
+    <button class="btn btn-secondary float-right" (click)="restart()"><fa-icon style="color:lightgreen" [icon]="faUndo"></fa-icon></button>
   </div>
 </div>
