@@ -14,7 +14,7 @@ export class CardListComponent {
   selectedStory: Story;
   stories: Story[];
   faPlus = faPlus;
-  gridOptions = <GridOptions>{
+  gridOptions = <GridOptions> {
     enableRangeSelection: true,
     columnDefs: [
       {

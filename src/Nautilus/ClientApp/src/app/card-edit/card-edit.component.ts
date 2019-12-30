@@ -3,6 +3,7 @@ import { Card, Story } from '../story';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { StoryService } from '../story.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-card-edit',
@@ -32,6 +33,7 @@ export class CardEditComponent {
 
     if (!this.card) {
       this.card = new Card();
+      this.story.cards.push(this.card);
     }
 
     this.cardForm = this.formBuilder.group({
