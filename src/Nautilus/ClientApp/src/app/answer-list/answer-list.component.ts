@@ -15,7 +15,7 @@ export class AnswerListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.addAnswer();
+
   }
 
   addAnswer() {
