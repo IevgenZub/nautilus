@@ -27,7 +27,7 @@ export class CardListComponent {
     ],
     defaultColDef: { sortable: true, resizable: true, filter: true },
     deltaRowDataMode: true,
-    getRowNodeId: function (data) {
+    getRowNodeId: function (data) { 
       return data.id;
     },
     onGridReady: () => {

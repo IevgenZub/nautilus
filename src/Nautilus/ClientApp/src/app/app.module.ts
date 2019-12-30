@@ -51,6 +51,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'story-list', component: StoryListComponent },
+      { path: 'story-edit', component: StoryEditComponent },
       { path: 'card-list', component: CardListComponent },
       { path: 'card-edit', component: CardEditComponent }
     ])

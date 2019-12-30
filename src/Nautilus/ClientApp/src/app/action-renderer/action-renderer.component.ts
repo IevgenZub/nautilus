@@ -23,6 +23,7 @@ export class ActionRendererComponent implements ICellRendererAngularComp {
   }
 
   navigate() {
-    this.ngZone.run(() => this.router.navigate(['card-edit'], { queryParams: { id: this.params.value } }));
+    let editUrl = this.router.url.replace('list', 'edit');
+    this.ngZone.run(() => this.router.navigate([editUrl], { queryParams: { id: this.params.value } }));
   }
 }

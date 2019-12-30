@@ -26,14 +26,13 @@ export class StoryService {
 
 
   saveStory(story: Story) {
+    story.cards.forEach((c, i) => c.id = i + 1);  
     var stories = <Story[]>this.storage.get(this.SAVED_STORIES_KEY);
     var existing = stories.filter(s => s.id == story.id)[0];
-
     if (existing) {
       existing.name = story.name;
       existing.entryCardId = story.entryCardId;
       existing.cards = story.cards;
-      existing.cards.forEach((c, i) => c.id = i + 1);  
     }
     else {
       story.id = stories.length + 1;
