@@ -18,12 +18,12 @@ export class CardEditComponent {
     private formBuilder: FormBuilder,
     private storyService: StoryService,
     private activatedRouter: ActivatedRoute,
-    private router: Router,) {
+    private router: Router) {
 
     this.activatedRouter.queryParams.subscribe(params => {
       this.story = this.storyService.getStory(params['storyId']);
-      if (params['cardId']) {
-        var existingCards = this.story.cards.filter(c => c.id == params['cardId']);
+      if (params['id']) {
+        var existingCards = this.story.cards.filter(c => c.id == params['id']);
         if (existingCards.length > 0) {
           this.card = existingCards[0];
         }
@@ -52,8 +52,8 @@ export class CardEditComponent {
     this.card.title = formValue.title;
     this.card.description = formValue.description;
 
-    //this.cardService.saveCard(this.card);
-    this.router.navigate(['/game-designer'])
+    this.storyService.saveStory(this.story);
+    this.router.navigate(['/card-list'])
   }
 
   resetForm() {

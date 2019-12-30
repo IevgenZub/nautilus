@@ -6,7 +6,7 @@ export class Player {
 
 export class Story {
   id: number;
-  name: string = 'Default story'
+  name: string;
   entryCardId: string;
   cards: Card[];
 }

@@ -19,9 +19,9 @@ export class StoryService {
     return this.storage.get(this.SAVED_STORIES_KEY);
   }
 
-  getStory(name: string): Story {
+  getStory(id: number): Story {
     var stories = <Story[]> this.storage.get(this.SAVED_STORIES_KEY);
-    return stories.filter(s => s.name == name)[0];
+    return stories.filter(s => s.id == id)[0];
   }
 
 
