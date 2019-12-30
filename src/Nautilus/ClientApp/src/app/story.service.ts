@@ -24,13 +24,13 @@ export class StoryService {
     return stories.filter(s => s.id == id)[0];
   }
 
-
   saveStory(story: Story) {
     story.cards.forEach((c, i) => c.id = i + 1);  
     var stories = <Story[]>this.storage.get(this.SAVED_STORIES_KEY);
     var existing = stories.filter(s => s.id == story.id)[0];
     if (existing) {
       existing.name = story.name;
+      existing.isActive = story.isActive;
       existing.entryCardId = story.entryCardId;
       existing.cards = story.cards;
     }

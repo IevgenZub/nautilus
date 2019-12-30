@@ -3,7 +3,6 @@ import { Card, Story } from '../story';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { StoryService } from '../story.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-card-edit',
@@ -22,27 +21,27 @@ export class CardEditComponent {
     private router: Router) {
 
     this.activatedRouter.queryParams.subscribe(params => {
-      this.story = this.storyService.getStory(params['storyId']);
+      this.story = this.storyService.getStories().filter(s => s.isActive)[0];
       if (params['id']) {
         var existingCards = this.story.cards.filter(c => c.id == params['id']);
         if (existingCards.length > 0) {
           this.card = existingCards[0];
         }
       }
+
+      if (!this.card) {
+        this.card = new Card();
+        this.story.cards.push(this.card);
+      }
+
+      this.cardForm = this.formBuilder.group({
+        header: new FormControl(this.card.header, [Validators.required, Validators.minLength(3)]),
+        title: new FormControl(this.card.title, [Validators.required, Validators.minLength(3)]),
+        description: new FormControl(this.card.description, [Validators.required, Validators.minLength(3)])
+      });
+
+      this.resetForm();
     });
-
-    if (!this.card) {
-      this.card = new Card();
-      this.story.cards.push(this.card);
-    }
-
-    this.cardForm = this.formBuilder.group({
-      header: new FormControl(this.card.header, [Validators.required, Validators.minLength(3)]),
-      title: new FormControl(this.card.title, [Validators.required, Validators.minLength(3)]),
-      description: new FormControl(this.card.description, [Validators.required, Validators.minLength(3)])
-    });
-
-    this.resetForm();
   }
 
   get header() { return this.cardForm.get('header'); }

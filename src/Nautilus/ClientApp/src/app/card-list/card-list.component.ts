@@ -41,11 +41,19 @@ export class CardListComponent {
 
   constructor(private storyService: StoryService) {
     this.stories = this.storyService.getStories();
-    this.selectedStory = this.stories[0];
+    this.selectedStory = this.stories.filter(s => s.isActive)[0];
   }
 
   selectStory(story: Story) {
     this.selectedStory = story;
+
+    this.stories.forEach(s => {
+      s.isActive = false
+      this.storyService.saveStory(s);
+    });
+
+    this.selectedStory.isActive = true;
+    this.storyService.saveStory(this.selectedStory);
     this.gridOptions.api.setRowData(this.selectedStory.cards);
   }
 }

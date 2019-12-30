@@ -35,6 +35,7 @@ export class GameTableComponent {
     else {
       this.story = <Story>{
         name: "Default",
+        isActive: true,
         entryCardId: "Let's get you into the story!",
         cards: [{
           header: "Introduction",
@@ -57,6 +58,7 @@ export class GameTableComponent {
       this.storyService.saveStory(this.story);
       this.storyService.saveStory(<Story>{
         name: "Another default",
+        isActive: false,
         entryCardId: "Another Let's get you into the story!",
         cards: [{
           header: "Another Introduction",

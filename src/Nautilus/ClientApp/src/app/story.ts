@@ -7,6 +7,7 @@ export class Player {
 export class Story {
   id: number;
   name: string;
+  isActive: boolean;
   entryCardId: string;
   cards: Card[];
 }
