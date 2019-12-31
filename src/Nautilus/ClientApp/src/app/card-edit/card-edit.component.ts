@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Card, Story } from '../story';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { StoryService } from '../story.service';
@@ -10,54 +10,47 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./card-edit.component.css']
 })
 export class CardEditComponent {
-  story: Story;
-  card: Card;
+  _story: Story;
+  _card: Card;
   cardForm: FormGroup; 
 
   constructor(
     private formBuilder: FormBuilder,
-    private storyService: StoryService,
-    private activatedRouter: ActivatedRoute,
-    private router: Router) {
+    private storyService: StoryService) {
+  }
 
-    this.activatedRouter.queryParams.subscribe(params => {
-      this.story = this.storyService.getStories().filter(s => s.isActive)[0];
-      if (params['id']) {
-        var existingCards = this.story.cards.filter(c => c.id == params['id']);
-        if (existingCards.length > 0) {
-          this.card = existingCards[0];
-        }
-      }
+  @Input()
+  set card(card: Card) {
+    this._card = card;
 
-      if (!this.card) {
-        this.card = new Card();
-        this.story.cards.push(this.card);
-      }
-
-      this.cardForm = this.formBuilder.group({
-        header: new FormControl(this.card.header, [Validators.required, Validators.minLength(3)]),
-        title: new FormControl(this.card.title, [Validators.required, Validators.minLength(3)]),
-        description: new FormControl(this.card.description, [Validators.required, Validators.minLength(3)])
-      });
-
-      this.resetForm();
+    this.cardForm = this.formBuilder.group({
+      header: new FormControl(this._card.header, [Validators.required, Validators.minLength(3)]),
+      title: new FormControl(this._card.title, [Validators.required, Validators.minLength(3)]),
+      description: new FormControl(this._card.description, [Validators.required, Validators.minLength(3)])
     });
+
+    this.resetForm();
+  }
+
+  @Input()
+  set story(story: Story) {
+    this._story = story;
   }
 
   get header() { return this.cardForm.get('header'); }
   get title() { return this.cardForm.get('title'); }
   get description() { return this.cardForm.get('description'); }
+  get card(): Card { return this._card; }
 
   onSubmit(formValue: Card) {
-    this.card.header = formValue.header;
-    this.card.title = formValue.title;
-    this.card.description = formValue.description;
-
-    this.storyService.saveStory(this.story);
-    this.router.navigate(['/card-list'])
+    let card = this._story.cards.filter(c => c.id == this._card.id)[0];
+    card.header = formValue.header;
+    card.title = formValue.title;
+    card.description = formValue.description;
+    this.storyService.saveStory(this._story);
   }
 
   resetForm() {
-    this.cardForm.setValue({ header: this.card.header, title: this.card.title, description: this.card.description});
+    this.cardForm.setValue({ header: this._card.header, title: this._card.title, description: this._card.description});
   }
 }

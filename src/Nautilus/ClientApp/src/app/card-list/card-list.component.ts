@@ -44,7 +44,6 @@ export class CardListComponent {
     }
   };
 
-
   constructor(private modalService: NgbModal,private storyService: StoryService, private activatedRouter: ActivatedRoute) {
     this.activatedRouter.queryParams.subscribe(params => {
       if (params['id']) {

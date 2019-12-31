@@ -4,7 +4,7 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { StoryService } from '../story.service';
-import { Story } from '../story';
+import { Story, Card } from '../story';
 
 @Component({
   selector: 'app-card-action-cell-renderer',
@@ -15,6 +15,7 @@ export class CardActionCellRendererComponent implements ICellRendererAngularComp
   params: any;
   faEdit = faEdit;
   story: Story;
+  card: Card;
   closeResult: string;
 
   constructor(private modalService: NgbModal, private storyService: StoryService, private activatedRouter: ActivatedRoute) {
@@ -28,6 +29,7 @@ export class CardActionCellRendererComponent implements ICellRendererAngularComp
   open(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      this.params.api.setRowData(this.story.cards);
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
@@ -44,10 +46,11 @@ export class CardActionCellRendererComponent implements ICellRendererAngularComp
   }
 
   refresh(params: any): boolean {
-    return false;
+    return true;
   }
 
   agInit(params: import("ag-grid-community").ICellRendererParams): void {
-    
+    this.params = params;
+    this.card = this.story.cards.filter(c => c.id == params.value)[0];
   }
 }
