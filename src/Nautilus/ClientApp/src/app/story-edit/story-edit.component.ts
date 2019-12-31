@@ -3,6 +3,7 @@ import { Card, Story } from '../story';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { StoryService } from '../story.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-story-edit',
@@ -12,6 +13,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class StoryEditComponent {
   story: Story;
   storyForm: FormGroup;
+  nameEditMode: boolean;
+  _name: string;
+  faCheck = faCheck;
+  faTimes = faTimes;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,8 +52,18 @@ export class StoryEditComponent {
     this.story.name = formValue.name;
     this.story.entryCardId= formValue.entryCardId;
     this.storyService.saveStory(this.story);
-    
-    this.router.navigate(['/story-list'])
+
+    this.nameEditMode = false;
+  }
+
+  toggleNameEditMode() {
+    this._name = this.name.value;
+    this.nameEditMode = true;
+  }
+
+  cancelNameEdit() {
+    this.storyForm.setValue({ name: this._name, entryCardId: this.story.entryCardId });
+    this.nameEditMode = false;
   }
 
   resetForm() {

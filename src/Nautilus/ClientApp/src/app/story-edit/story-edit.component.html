@@ -1,13 +1,27 @@
-<h1>Add/Edit Story</h1>
 <div class="row">
   <div class="col">
     <form [formGroup]="storyForm" (ngSubmit)="onSubmit(storyForm.value)">
       <div class="row">
         <div class="col-12">
           <div class="form-group">
-            <label for="name">Name</label>
-            <input id="name" type="text" formControlName="name"
-                   class="form-control" required minlength="3">
+            <div (mouseover)="hover=true" (mouseleave)="hover=false">
+              <h1 [ngStyle]="{backgroundColor: hover==true  ? 'aliceblue' : '' }" (click)="toggleNameEditMode()" *ngIf="!nameEditMode">{{ story.name }}</h1>
+            </div>
+          </div>
+          <div [hidden]="!nameEditMode" class="form-group">
+            <div class="row">
+              <div class="col-9">
+                <input id="name" type="text" formControlName="name" class="form-control" required minlength="3">
+              </div>
+              <div class="col-3">
+                <button type="submit" class="btn btn-secondary" style="margin-right:5px;" [disabled]="!storyForm.valid">
+                  <fa-icon style="color:lightgreen" [icon]="faCheck"></fa-icon>
+                </button>
+                <button class="btn btn-light" (click)="cancelNameEdit()">
+                  <fa-icon style="color:indianred" [icon]="faTimes"></fa-icon>
+                </button>
+              </div>
+            </div>
             <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
               <div *ngIf="name.errors.required">
                 Name is required.
@@ -18,23 +32,14 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="title">Entry card</label>
+            <label for="title">Description</label>
             <input id="entryCardId" type="text" formControlName="entryCardId"
                    class="form-control" required minlength="3">
-            <div *ngIf="entryCardId.invalid && (entryCardId.dirty || entryCardId.touched)" class="alert alert-danger">
-              <div *ngIf="entryCardId.errors.required">
-                Entry card is required.
-              </div>
-              <div *ngIf="entryCardId.errors.minlength">
-                Entry card must be at least 3 characters long.
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <button class="btn btn-primary" [disabled]="!storyForm.valid">Save</button>
           </div>
         </div>
       </div>
     </form>
   </div>
 </div>
+
+<app-card-list></app-card-list>

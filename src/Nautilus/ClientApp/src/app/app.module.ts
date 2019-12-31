@@ -16,13 +16,14 @@ import { StoryService } from './story.service';
 import { CardListComponent } from './card-list/card-list.component';
 import { CardEditComponent } from './card-edit/card-edit.component';
 import { AgGridModule } from 'ag-grid-angular';
-import { ActionRendererComponent } from './action-renderer/action-renderer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AnswerListComponent } from './answer-list/answer-list.component';
 import { AnswerEditComponent } from './answer-edit/answer-edit.component';
 import { StoryEditComponent } from './story-edit/story-edit.component';
 import { StoryListComponent } from './story-list/story-list.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CardActionCellRendererComponent } from './card-action-cell-renderer/card-action-cell-renderer.component';
+import { StoryActionCellRendererComponent } from './story-action-cell-renderer/story-action-cell-renderer.component';
 
 
 @NgModule({
@@ -33,27 +34,26 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     GameTableComponent,
     CardListComponent,
     CardEditComponent,
-    ActionRendererComponent,
     AnswerListComponent,
     AnswerEditComponent,
     StoryEditComponent,
-    StoryListComponent
+    StoryListComponent,
+    CardActionCellRendererComponent,
+    StoryActionCellRendererComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     FontAwesomeModule,
-    AgGridModule.withComponents([ActionRendererComponent]),
+    AgGridModule.withComponents([CardActionCellRendererComponent, StoryActionCellRendererComponent]),
     ReactiveFormsModule,
     ApiAuthorizationModule,
     NgbModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'story-list', component: StoryListComponent },
-      { path: 'story-edit', component: StoryEditComponent },
-      { path: 'card-list', component: CardListComponent },
-      { path: 'card-edit', component: CardEditComponent }
+      { path: 'story-edit', component: StoryEditComponent }
     ])
   ],
   providers: [

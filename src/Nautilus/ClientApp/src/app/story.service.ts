@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { StorageService, LOCAL_STORAGE } from 'ngx-webstorage-service';
-import { Story } from './story';
+import { Story, Card } from './story';
 import { SAVED_STORIES_KEY } from './constants';
 
 @Injectable({

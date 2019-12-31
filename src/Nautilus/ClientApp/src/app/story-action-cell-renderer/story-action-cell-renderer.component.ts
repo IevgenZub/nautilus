@@ -6,7 +6,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 @Component({
   template: '<div style="cursor:pointer;" class="text-center"><fa-icon (click)="navigate()" [icon]="faEdit"></fa-icon></div>'
 })
-export class ActionRendererComponent implements ICellRendererAngularComp {
+export class StoryActionCellRendererComponent implements ICellRendererAngularComp {
   params: any;
   faEdit = faEdit;
 
@@ -23,7 +23,7 @@ export class ActionRendererComponent implements ICellRendererAngularComp {
   }
 
   navigate() {
-    let editUlr = this.router.url.replace('list', 'edit');
-    this.ngZone.run(() => this.router.navigate([editUlr], { queryParams: { id: this.params.value } }));
+    this.ngZone.run(() => this.router.navigate(['story-edit'], { queryParams: { id: this.params.value } }));
   }
+
 }

@@ -1,9 +1,11 @@
 import { Component, Input} from '@angular/core';
-import { Card, Story } from '../story';
+import { Story } from '../story';
 import { StoryService } from '../story.service';
 import { GridOptions } from 'ag-grid-community';
-import { ActionRendererComponent } from '../action-renderer/action-renderer.component';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CardActionCellRendererComponent } from '../card-action-cell-renderer/card-action-cell-renderer.component';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-card-list',
@@ -11,27 +13,30 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./card-list.component.css']
 })
 export class CardListComponent {
-  selectedStory: Story;
-  stories: Story[];
+  story: Story;
   faPlus = faPlus;
-  gridOptions = <GridOptions> {
+  closeResult: string;
+  gridOptions = <GridOptions>{
     enableRangeSelection: true,
     columnDefs: [
       {
         headerName: '', field: 'id', filter: false, sort: false, width: 30,
-        cellRendererFramework: ActionRendererComponent
+        cellRendererFramework: CardActionCellRendererComponent
       },
       { headerName: "Header", field: "header", width: 150 },
       { headerName: "Title", field: "title", width: 200 },
       { headerName: "Description", field: "description", width: 300 }
     ],
+    context: {
+      componentParent: this
+    },
     defaultColDef: { sortable: true, resizable: true, filter: true },
     deltaRowDataMode: true,
     getRowNodeId: function (data) { 
       return data.id;
     },
     onGridReady: () => {
-      this.gridOptions.api.setRowData(this.selectedStory.cards);
+      this.gridOptions.api.setRowData(this.story.cards);
     },
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit();
@@ -39,21 +44,30 @@ export class CardListComponent {
     }
   };
 
-  constructor(private storyService: StoryService) {
-    this.stories = this.storyService.getStories();
-    this.selectedStory = this.stories.filter(s => s.isActive)[0];
+
+  constructor(private modalService: NgbModal,private storyService: StoryService, private activatedRouter: ActivatedRoute) {
+    this.activatedRouter.queryParams.subscribe(params => {
+      if (params['id']) {
+        this.story = this.storyService.getStory(params['id']);
+      }
+    });
   }
 
-  selectStory(story: Story) {
-    this.selectedStory = story;
-
-    this.stories.forEach(s => {
-      s.isActive = false
-      this.storyService.saveStory(s);
+  open(content) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  }
 
-    this.selectedStory.isActive = true;
-    this.storyService.saveStory(this.selectedStory);
-    this.gridOptions.api.setRowData(this.selectedStory.cards);
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }

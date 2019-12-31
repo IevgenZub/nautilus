@@ -3,7 +3,7 @@ import { Story } from '../story';
 import { StoryService } from '../story.service';
 import { GridOptions } from 'ag-grid-community';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { ActionRendererComponent } from '../action-renderer/action-renderer.component';
+import { StoryActionCellRendererComponent } from '../story-action-cell-renderer/story-action-cell-renderer.component';
 
 @Component({
   selector: 'app-story-list',
@@ -18,7 +18,7 @@ export class StoryListComponent {
     columnDefs: [
       {
         headerName: '', field: 'id', filter: false, sort: false, width: 30,
-        cellRendererFramework: ActionRendererComponent
+        cellRendererFramework: StoryActionCellRendererComponent
       },
       { headerName: "Name", field: "name", width: 300 },
       { headerName: "Entry card", field: "entryCardId", width: 200 },

@@ -1,7 +1,4 @@
-<div class="row">
-  <div class="col">
-    <h3>Answers</h3>
-  </div>
+<div class="row" style="margin-top:5px;">
   <div class="col">
     <button class="btn btn-primary float-right" (click)="addAnswer()">
       <fa-icon style="color:lightgreen" [icon]="faPlus"></fa-icon>
@@ -15,9 +12,6 @@
         <button class="btn btn-link" (click)="selectAnswer(answer)">{{ answer.decision }}</button>
       </li>
     </ul>
-  </div>
-  <div class="col">
-    <app-answer-edit [answer]="selectedAnswer" *ngIf="selectedAnswer"></app-answer-edit>
   </div>
 </div>
 
