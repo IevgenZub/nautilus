@@ -30,6 +30,9 @@ export class StoryListComponent  implements OnInit {
     getRowNodeId: function (data) {
       return data.id;
     },
+    onGridReady: () => {
+      this.gridOptions.api.showLoadingOverlay();
+    },
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit();
       params.api.setSortModel([{ colId: 'id', sort: 'desc' }]);
