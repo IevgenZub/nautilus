@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Story } from '../story';
 import { GridOptions } from 'ag-grid-community';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Store, select } from '@ngrx/store';
 import { StoryActionCellRendererComponent } from '../story-action-cell-renderer/story-action-cell-renderer.component';
 import { Observable } from 'rxjs';
 import { StoryService } from '../story.service';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-story-list',
@@ -27,7 +26,7 @@ export class StoryListComponent  implements OnInit {
       },
       {
         headerName: "Last updated", field: "lastUpdated", sortable: true,
-        valueFormatter: params => `${new Date(params.value).toLocaleString()}`
+        valueFormatter: params => `${params.value}`
       }
     ],
     defaultColDef: { sortable: false, resizable: true, filter: true },
@@ -51,7 +50,7 @@ export class StoryListComponent  implements OnInit {
     this.stories$ = storyService.entities$;
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.storyService.getAll();
   }
 }

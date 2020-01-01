@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { StoryService } from '../story.service';
+import { StoryService, toUtc } from '../story.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 import { Story } from '../story';
@@ -47,6 +47,7 @@ export class StoryEditComponent implements OnInit  {
 
   onSubmit(formValue: Story) {
     formValue.lastUpdated = new Date();
+    
     if (formValue.id == 0) {
       this.storyService.add(formValue);
     } else {

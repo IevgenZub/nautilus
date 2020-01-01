@@ -10,4 +10,3 @@ export class StoryService extends EntityCollectionServiceBase<Story> {
     super('Story', serviceElementsFactory);
   }
 }
-
