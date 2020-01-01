@@ -42,12 +42,19 @@ export class StoryEditComponent implements OnInit  {
           let story = stories.filter(s => s.id == id)[0];
           this.storyForm.setValue({ id: story.id, name: story.name });
         });
+      } else {
+        this.storyForm.setValue({ id: 0, name: '' });
       }
     });
   }
 
   onSubmit(formValue: Story) {
-    this.storyService.update(formValue);
+    if (formValue.id == 0) {
+      this.storyService.add(formValue);
+    } else {
+      this.storyService.update(formValue);
+    }
+
     this.router.navigate(['/story-list']);
   }
 

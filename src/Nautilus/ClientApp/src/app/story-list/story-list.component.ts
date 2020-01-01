@@ -14,7 +14,6 @@ import { StoryService } from '../story.service';
 })
 export class StoryListComponent  implements OnInit {
   stories$: Observable<Story[]>;
-  loading$: Observable<boolean>;
   faPlus = faPlus;
   gridOptions = <GridOptions>{
     enableRangeSelection: true,
@@ -23,9 +22,9 @@ export class StoryListComponent  implements OnInit {
         headerName: '', field: 'id', filter: false, sort: false, width: 30,
         cellRendererFramework: StoryActionCellRendererComponent
       },
-      { headerName: "Name", field: "name", width: 300 }
+      { headerName: "Name", field: "name", width: 400, sortable: true }
     ],
-    defaultColDef: { sortable: true, resizable: true, filter: true },
+    defaultColDef: { sortable: false, resizable: true, filter: true },
     deltaRowDataMode: true,
     getRowNodeId: function (data) {
       return data.id;
@@ -41,7 +40,6 @@ export class StoryListComponent  implements OnInit {
 
   constructor(private storyService: StoryService) {
     this.stories$ = storyService.entities$;
-    this.loading$ = storyService.loading$;
   }
 
   ngOnInit(): void {
