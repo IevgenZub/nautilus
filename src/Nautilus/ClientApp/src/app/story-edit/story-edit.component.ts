@@ -1,20 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { StoryService } from '../story.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 import { Story } from '../story';
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-story-edit',
   templateUrl: './story-edit.component.html',
   styleUrls: ['./story-edit.component.css']
 })
-export class StoryEditComponent {
-  story: Story;
+export class StoryEditComponent implements OnInit  {
+  stories$: Observable<Story[]>;
   storyForm: FormGroup;
-  nameEditMode: boolean;
-  _name: string;
   faCheck = faCheck;
   faTimes = faTimes;
 
@@ -24,43 +24,34 @@ export class StoryEditComponent {
     private activatedRouter: ActivatedRoute,
     private router: Router) {
 
-    this.activatedRouter.queryParams.subscribe(params => {
-      if (params['id']) {
-        
-      }
-    });
-
-    if (!this.story) {
-      this.story = new Story();
-      this.story.name = "";
-    }
-
     this.storyForm = this.formBuilder.group({
-      name: new FormControl(this.story.name, [Validators.required, Validators.minLength(3)])
+      id: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required, Validators.minLength(3)])
     });
-
-    this.resetForm();
   }
 
   get name() { return this.storyForm.get('name'); }
-  
+
+  ngOnInit() {
+    this.stories$ = this.storyService.entities$;
+    this.activatedRouter.queryParams.subscribe(params => {
+      let id = params['id'];
+      if (id) {
+        this.storyService.getByKey(id);
+        this.stories$.subscribe(stories => {
+          let story = stories.filter(s => s.id == id)[0];
+          this.storyForm.setValue({ id: story.id, name: story.name });
+        });
+      }
+    });
+  }
+
   onSubmit(formValue: Story) {
-    this.story.name = formValue.name;
-  
-    this.nameEditMode = false;
+    this.storyService.update(formValue);
+    this.router.navigate(['/story-list']);
   }
 
-  toggleNameEditMode() {
-    this._name = this.name.value;
-    this.nameEditMode = true;
-  }
-
-  cancelNameEdit() {
-    this.storyForm.setValue({ name: this._name });
-    this.nameEditMode = false;
-  }
-
-  resetForm() {
-    this.storyForm.setValue({ name: this.story.name });
+  cancel() {
+    this.router.navigate(['/story-list']);
   }
 }
