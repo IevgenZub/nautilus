@@ -30,7 +30,6 @@ export class StoryService {
     var existing = stories.filter(s => s.id == story.id)[0];
     if (existing) {
       existing.name = story.name;
-      existing.isActive = story.isActive;
       existing.entryCardId = story.entryCardId;
       existing.cards = story.cards;
     }
