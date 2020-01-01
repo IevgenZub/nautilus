@@ -23,7 +23,7 @@ export class StoryEditComponent implements OnInit  {
     private storyService: StoryService,
     private activatedRouter: ActivatedRoute,
     private router: Router) {
-
+    this.stories$ = this.storyService.entities$;
     this.storyForm = this.formBuilder.group({
       id: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required, Validators.minLength(3)])
@@ -33,7 +33,6 @@ export class StoryEditComponent implements OnInit  {
   get name() { return this.storyForm.get('name'); }
 
   ngOnInit() {
-    this.stories$ = this.storyService.entities$;
     this.activatedRouter.queryParams.subscribe(params => {
       let id = params['id'];
       if (id) {
@@ -54,10 +53,10 @@ export class StoryEditComponent implements OnInit  {
       this.storyService.update(formValue);
     }
 
-    this.router.navigate(['/story-list']);
+    this.navigateToList();
   }
 
-  cancel() {
+  navigateToList() {
     this.router.navigate(['/story-list']);
   }
 }
