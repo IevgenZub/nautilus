@@ -46,8 +46,6 @@ export class StoryEditComponent implements OnInit  {
   }
 
   onSubmit(formValue: Story) {
-    formValue.lastUpdated = new Date();
-    
     if (formValue.id == 0) {
       this.storyService.add(formValue);
     } else {
