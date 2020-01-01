@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { fetchStories, addStory, editStory, addCard, editCard, addAnswer, editAnswer } from './story.actions';
+import { fetchStories, addStory, editStory } from './story.actions';
 import { Story } from './story';
  
 export const initialState = <State> { stories: [] };
