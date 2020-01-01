@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 import { Story } from '../story';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-story-edit',
