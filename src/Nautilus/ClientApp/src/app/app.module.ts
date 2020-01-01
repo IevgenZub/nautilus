@@ -18,7 +18,8 @@ import { StoryEditComponent } from './story-edit/story-edit.component';
 import { StoryListComponent } from './story-list/story-list.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoryActionCellRendererComponent } from './story-action-cell-renderer/story-action-cell-renderer.component';
-
+import { StoreModule } from '@ngrx/store';
+import { storyReducer } from './story.reducer';
 
 @NgModule({
   declarations: [
@@ -34,10 +35,11 @@ import { StoryActionCellRendererComponent } from './story-action-cell-renderer/s
     HttpClientModule,
     FormsModule,
     FontAwesomeModule,
-    AgGridModule.withComponents([StoryActionCellRendererComponent]),
     ReactiveFormsModule,
     ApiAuthorizationModule,
     NgbModule,
+    AgGridModule.withComponents([StoryActionCellRendererComponent]),
+    StoreModule.forRoot({ stories: storyReducer }),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'story-list', component: StoryListComponent },

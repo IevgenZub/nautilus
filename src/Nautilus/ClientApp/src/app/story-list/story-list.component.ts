@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Story } from '../story';
-import { StoryService } from '../story.service';
 import { GridOptions } from 'ag-grid-community';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Store, select } from '@ngrx/store';
 import { StoryActionCellRendererComponent } from '../story-action-cell-renderer/story-action-cell-renderer.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-story-list',
   templateUrl: './story-list.component.html',
   styleUrls: ['./story-list.component.css']
 })
-export class StoryListComponent {
-  stories: Story[];
+export class StoryListComponent implements OnInit {
+  stories$: Observable<Story[]> = this.store.select(state => state.stories);
   faPlus = faPlus;
   gridOptions = <GridOptions>{
     enableRangeSelection: true,
@@ -20,8 +21,7 @@ export class StoryListComponent {
         headerName: '', field: 'id', filter: false, sort: false, width: 30,
         cellRendererFramework: StoryActionCellRendererComponent
       },
-      { headerName: "Name", field: "name", width: 300 },
-      { headerName: "Entry card", field: "entryCardId", width: 200 },
+      { headerName: "Name", field: "name", width: 300 }
     ],
     defaultColDef: { sortable: true, resizable: true, filter: true },
     deltaRowDataMode: true,
@@ -29,7 +29,7 @@ export class StoryListComponent {
       return data.id;
     },
     onGridReady: () => {
-      this.gridOptions.api.setRowData(this.stories);
+      // this.gridOptions.api.setRowData();
     },
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit();
@@ -37,7 +37,9 @@ export class StoryListComponent {
     }
   };
 
-  constructor(private storyService: StoryService) {
-    
+  ngOnInit(): void {
+    this.store.dispatch({ type: '[StoryList] Fetch Stories' })
   }
+
+  constructor(private store: Store<{ stories: Story[] }>) {}
 }
