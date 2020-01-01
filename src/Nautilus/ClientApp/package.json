@@ -29,6 +29,7 @@
     "@ngrx/effects": "^8.6.0",
     "@ngrx/entity": "^8.6.0",
     "@ngrx/store": "^8.6.0",
+    "@ngrx/store-devtools": "^8.6.0",
     "@nguniversal/module-map-ngfactory-loader": "8.0.0-rc.1",
     "ag-grid-angular": "^22.1.1",
     "ag-grid-community": "^22.1.1",
