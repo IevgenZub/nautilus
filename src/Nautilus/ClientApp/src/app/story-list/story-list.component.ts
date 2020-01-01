@@ -22,7 +22,13 @@ export class StoryListComponent  implements OnInit {
         headerName: '', field: 'id', filter: false, sort: false, width: 30,
         cellRendererFramework: StoryActionCellRendererComponent
       },
-      { headerName: "Name", field: "name", width: 400, sortable: true }
+      {
+        headerName: "Name", field: "name", sortable: true
+      },
+      {
+        headerName: "Last updated", field: "lastUpdated", sortable: true,
+        valueFormatter: params => `${new Date(params.value).toLocaleString()}`
+      }
     ],
     defaultColDef: { sortable: false, resizable: true, filter: true },
     deltaRowDataMode: true,
@@ -32,9 +38,12 @@ export class StoryListComponent  implements OnInit {
     onGridReady: () => {
       this.gridOptions.api.showLoadingOverlay();
     },
-    onFirstDataRendered(params) {
+    onGridSizeChanged: (params) => {
       params.api.sizeColumnsToFit();
-      params.api.setSortModel([{ colId: 'id', sort: 'desc' }]);
+    },
+    onFirstDataRendered: (params) => {
+      params.api.sizeColumnsToFit();
+      params.api.setSortModel([{ colId: 'lastUpdated', sort: 'desc' }]);
     }
   };
 
