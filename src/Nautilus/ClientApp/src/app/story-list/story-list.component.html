@@ -12,7 +12,8 @@
   <div class="col">
     <ag-grid-angular style="width: 100%; height: 400px;"
                      class="ag-theme-balham"
-                     [gridOptions]="gridOptions">
+                     [gridOptions]="gridOptions"
+                     [rowData]="stories$ | async">
     </ag-grid-angular>
   </div>
 </div>

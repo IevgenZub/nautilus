@@ -5,14 +5,16 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Store, select } from '@ngrx/store';
 import { StoryActionCellRendererComponent } from '../story-action-cell-renderer/story-action-cell-renderer.component';
 import { Observable } from 'rxjs';
+import { StoryService } from '../story.service';
 
 @Component({
   selector: 'app-story-list',
   templateUrl: './story-list.component.html',
   styleUrls: ['./story-list.component.css']
 })
-export class StoryListComponent implements OnInit {
-  stories$: Observable<Story[]> = this.store.select(state => state.stories);
+export class StoryListComponent  implements OnInit {
+  stories$: Observable<Story[]>;
+  loading$: Observable<boolean>;
   faPlus = faPlus;
   gridOptions = <GridOptions>{
     enableRangeSelection: true,
@@ -28,18 +30,18 @@ export class StoryListComponent implements OnInit {
     getRowNodeId: function (data) {
       return data.id;
     },
-    onGridReady: () => {
-      // this.gridOptions.api.setRowData();
-    },
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit();
       params.api.setSortModel([{ colId: 'id', sort: 'desc' }]);
     }
   };
 
-  ngOnInit(): void {
-    this.store.dispatch({ type: '[StoryList] Fetch Stories' })
+  constructor(private storyService: StoryService) {
+    this.stories$ = storyService.entities$;
+    this.loading$ = storyService.loading$;
   }
 
-  constructor(private store: Store<{ stories: Story[] }>) {}
+  ngOnInit(): void {
+    this.storyService.getAll();
+  }
 }

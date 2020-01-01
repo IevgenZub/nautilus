@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Nautilus.Data;
@@ -10,7 +9,6 @@ using Nautilus.Models;
 
 namespace Nautilus.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class StoriesController : ControllerBase
     {
@@ -21,15 +19,13 @@ namespace Nautilus.Controllers
             _context = context;
         }
 
-        // GET: api/Stories
-        [HttpGet]
+        [HttpGet("api/stories")]
         public async Task<ActionResult<IEnumerable<Story>>> GetStories()
         {
             return await _context.Stories.ToListAsync();
         }
 
-        // GET: api/Stories/5
-        [HttpGet("{id}")]
+        [HttpGet("api/story/{id:int}")]
         public async Task<ActionResult<Story>> GetStory(int id)
         {
             var story = await _context.Stories.FindAsync(id);
@@ -42,10 +38,7 @@ namespace Nautilus.Controllers
             return story;
         }
 
-        // PUT: api/Stories/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
+        [HttpPut("api/story/{id:int}")]
         public async Task<IActionResult> PutStory(int id, Story story)
         {
             if (id != story.Id)
@@ -74,10 +67,7 @@ namespace Nautilus.Controllers
             return NoContent();
         }
 
-        // POST: api/Stories
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
+        [HttpPost("api/story")]
         public async Task<ActionResult<Story>> PostStory(Story story)
         {
             _context.Stories.Add(story);
@@ -86,8 +76,7 @@ namespace Nautilus.Controllers
             return CreatedAtAction("GetStory", new { id = story.Id }, story);
         }
 
-        // DELETE: api/Stories/5
-        [HttpDelete("{id}")]
+        [HttpDelete("api/story/{id:int}")]
         public async Task<ActionResult<Story>> DeleteStory(int id)
         {
             var story = await _context.Stories.FindAsync(id);

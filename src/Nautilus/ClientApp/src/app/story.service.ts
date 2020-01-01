@@ -1,32 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Story} from './story';
-import { HttpClient } from '@angular/common/http';
+import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StoryService {
-  apiUrl: string = 'api/story';
-  
-  constructor(private httpClient: HttpClient) {}
-
-  getStories() {
-    return this.httpClient.get<Story[]>(this.apiUrl);
-  }
-
-  getStory(id: number){
-    return this.httpClient.get<Story>(`${this.apiUrl}/${id}`);
-  }
-
-  createStory(story: Story) {
-    return this.httpClient.post(this.apiUrl, story);
-  }
-
-  updateStory(story: Story) {
-    return this.httpClient.put(`${this.apiUrl}/${story.id}`, story);
-  }
-
-  deleteStory(id: number) {
-    return this.httpClient.delete(`${this.apiUrl}/${id}`);
+export class StoryService extends EntityCollectionServiceBase<Story> {
+  constructor(serviceElementsFactory: EntityCollectionServiceElementsFactory) {
+    super('Story', serviceElementsFactory);
   }
 }
+

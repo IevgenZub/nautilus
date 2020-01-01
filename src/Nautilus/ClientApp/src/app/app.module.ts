@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
-import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { StoryService } from './story.service';
 import { AgGridModule } from 'ag-grid-angular';
@@ -19,7 +18,9 @@ import { StoryListComponent } from './story-list/story-list.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoryActionCellRendererComponent } from './story-action-cell-renderer/story-action-cell-renderer.component';
 import { StoreModule } from '@ngrx/store';
-import { storyReducer } from './story.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { EntityDataModule } from '@ngrx/data';
+import { entityConfig } from './entity.metadata';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,9 @@ import { storyReducer } from './story.reducer';
     ApiAuthorizationModule,
     NgbModule,
     AgGridModule.withComponents([StoryActionCellRendererComponent]),
-    StoreModule.forRoot({ stories: storyReducer }),
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+    EntityDataModule.forRoot(entityConfig),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'story-list', component: StoryListComponent },
