@@ -1,3 +1,4 @@
+<h1>Add/Edit Story</h1>
 <div class="row">
   <div class="col">
     <form [formGroup]="storyForm" (ngSubmit)="onSubmit(storyForm.value)">
@@ -7,6 +8,8 @@
             <div class="row">
               <div class="col">
                 <input id="id" type="hidden" formControlName="id" class="form-control" required>
+
+                <label for="name">Name</label>
                 <input id="name" type="text" formControlName="name" class="form-control" required minlength="3">
               </div>
             </div>

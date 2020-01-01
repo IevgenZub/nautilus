@@ -37,7 +37,6 @@ export class StoryEditComponent implements OnInit  {
     this.activatedRouter.queryParams.subscribe(params => {
       let id = params['id'];
       if (id) {
-        this.storyService.getByKey(id);
         this.stories$.subscribe(stories => {
           let story = stories.filter(s => s.id == id)[0];
           this.storyForm.setValue({ id: story.id, name: story.name });
