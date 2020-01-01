@@ -1,1 +1,0 @@
-export const SAVED_STORIES_KEY: string = 'NAUTILUS_SAVED_STORIES_KEY';

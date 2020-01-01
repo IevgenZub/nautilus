@@ -38,6 +38,6 @@ export class StoryListComponent {
   };
 
   constructor(private storyService: StoryService) {
-    this.stories = this.storyService.getStories();
+    
   }
 }
