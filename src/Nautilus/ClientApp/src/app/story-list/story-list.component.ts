@@ -26,7 +26,7 @@ export class StoryListComponent  implements OnInit {
       },
       {
         headerName: "Last updated", field: "lastUpdated", sortable: true,
-        valueFormatter: params => `${params.value}`
+        valueFormatter: params => `${this.utcToLocal(new Date(params.value))}`
       }
     ],
     defaultColDef: { sortable: false, resizable: true, filter: true },
@@ -52,5 +52,10 @@ export class StoryListComponent  implements OnInit {
 
   ngOnInit() {
     this.storyService.getAll();
+  }
+
+  utcToLocal(date) {
+    var newDate = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
+    return `${newDate.toLocaleDateString()} ${newDate.toLocaleTimeString()}`;
   }
 }

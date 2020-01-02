@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { StoryService, toUtc } from '../story.service';
+import { StoryService } from '../story.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 import { Story } from '../story';
@@ -45,14 +45,13 @@ export class StoryEditComponent implements OnInit  {
     });
   }
 
-  onSubmit(formValue: Story) {
-    if (formValue.id == 0) {
-      this.storyService.add(formValue);
+  onSubmit(story: Story) {
+    story.lastUpdated = new Date();
+    if (story.id == 0) {
+      this.storyService.add(story).subscribe(() => this.navigateToList())
     } else {
-      this.storyService.update(formValue);
+      this.storyService.update(story).subscribe(() => this.navigateToList());
     }
-
-    this.navigateToList();
   }
 
   navigateToList() {
