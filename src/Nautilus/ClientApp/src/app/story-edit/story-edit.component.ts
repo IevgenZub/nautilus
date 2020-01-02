@@ -13,7 +13,10 @@ import { Observable } from 'rxjs';
 })
 export class StoryEditComponent implements OnInit  {
   stories$: Observable<Story[]>;
+  story: Story;
   storyForm: FormGroup;
+  nameEditMode: boolean = false;
+  _name: string;
   faCheck = faCheck;
   faTimes = faTimes;
 
@@ -36,11 +39,16 @@ export class StoryEditComponent implements OnInit  {
       let id = params['id'];
       if (id) {
         this.stories$.subscribe(stories => {
-          let story = stories.filter(s => s.id == id)[0];
-          this.storyForm.setValue({ id: story.id, name: story.name });
+          this.story = stories.filter(s => s.id == id)[0];
+          if (this.story) {
+            this._name = this.story.name;
+            this.storyForm.setValue({ id: this.story.id, name: this.story.name });
+          }
         });
       } else {
-        this.storyForm.setValue({ id: 0, name: '' });
+        this.story = new Story();
+        this._name = this.story.name;
+        this.storyForm.setValue({ id: this.story.id, name: this.story.name });
       }
     });
   }
@@ -48,10 +56,21 @@ export class StoryEditComponent implements OnInit  {
   onSubmit(story: Story) {
     story.lastUpdated = new Date();
     if (story.id == 0) {
-      this.storyService.add(story).subscribe(() => this.navigateToList())
+      this.storyService.add(story)
     } else {
-      this.storyService.update(story).subscribe(() => this.navigateToList());
+      this.storyService.update(story);
     }
+
+    this.nameEditMode = false;
+  }
+
+  nameClick() {
+    this.nameEditMode = true;
+  }
+
+  cancelNameClick() {
+    this.storyForm.setValue({...this.storyForm.getRawValue(), name: this._name})
+    this.nameEditMode = false;
   }
 
   navigateToList() {
