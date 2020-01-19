@@ -47,6 +47,8 @@ export class StoryEditComponent implements OnInit  {
         });
       } else {
         this.story = new Story();
+        this.story.id = 0;
+        this.story.name = 'New Story';
         this._name = this.story.name;
         this.storyForm.setValue({ id: this.story.id, name: this.story.name });
       }
@@ -56,7 +58,8 @@ export class StoryEditComponent implements OnInit  {
   onSubmit(story: Story) {
     story.lastUpdated = new Date();
     if (story.id == 0) {
-      this.storyService.add(story)
+      this.storyService.add(story).subscribe(s =>
+        this.router.navigate(['/story-edit'], { queryParams: { id: s.id } }));
     } else {
       this.storyService.update(story);
     }
