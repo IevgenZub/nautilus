@@ -16,6 +16,7 @@ export class StoryEditComponent implements OnInit  {
   story: Story;
   storyForm: FormGroup;
   nameEditMode: boolean = false;
+  hover: boolean = false;
   _name: string;
   faCheck = faCheck;
   faTimes = faTimes;
