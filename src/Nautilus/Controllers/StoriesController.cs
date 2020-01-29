@@ -22,7 +22,7 @@ namespace Nautilus.Controllers
         [HttpGet("api/stories")]
         public async Task<ActionResult<IEnumerable<Story>>> GetStories()
         {
-            return await _context.Stories.ToListAsync();
+            return await _context.Stories.OrderByDescending(s => s.LastUpdated).ToListAsync();
         }
 
         [HttpGet("api/story/{id:int}")]
