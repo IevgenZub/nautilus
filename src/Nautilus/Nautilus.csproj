@@ -49,14 +49,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\tessdata\ara.cube.bigrams" />
-    <None Include="wwwroot\tessdata\ara.cube.fold" />
-    <None Include="wwwroot\tessdata\ara.cube.lm" />
-    <None Include="wwwroot\tessdata\ara.cube.nn" />
-    <None Include="wwwroot\tessdata\ara.cube.params" />
-    <None Include="wwwroot\tessdata\ara.cube.size" />
-    <None Include="wwwroot\tessdata\ara.cube.word-freq" />
-    <None Include="wwwroot\tessdata\ara.traineddata" />
     <None Include="wwwroot\tessdata\eng.cube.bigrams" />
     <None Include="wwwroot\tessdata\eng.cube.fold" />
     <None Include="wwwroot\tessdata\eng.cube.lm" />
