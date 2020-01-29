@@ -20,39 +20,33 @@ namespace FileUploadAngular5WithAsp.NetCore.Controllers
 		[HttpPost("api/story/files"), DisableRequestSizeLimit]
 		public ActionResult UploadFile()
 		{
-			try
+			const string folderName = "Upload";
+			string result;
+			var file = Request.Form.Files[0];
+			var webRootPath = _hostingEnvironment.WebRootPath;
+			var newPath = Path.Combine(webRootPath, folderName);
+
+			if (file.Length == 0)
 			{
-				const string folderName = "Upload";
-				var result = string.Empty;
-				var file = Request.Form.Files[0];
-				var webRootPath = _hostingEnvironment.WebRootPath;
-				var newPath = Path.Combine(webRootPath, folderName);
-
-				if (!Directory.Exists(newPath))
-				{
-					Directory.CreateDirectory(newPath);
-				}
-
-				if (file.Length > 0)
-				{
-					var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-					var fullPath = Path.Combine(newPath, fileName);
-					using var stream = new FileStream(fullPath, FileMode.Create);
-					file.CopyTo(stream);
-
-					using var engine = new TesseractEngine(Path.Combine(webRootPath, "tessdata"), "eng", EngineMode.Default);
-					using var img = Pix.LoadFromFile(fullPath);
-					var page = engine.Process(img);
-					result = page.GetText();
-				}
-
-				return Json(result);
+				throw new ArgumentOutOfRangeException("File is empty");
 			}
-			catch (IOException ex)
+
+			if (!Directory.Exists(newPath))
 			{
-				return Json("Upload Failed: " + ex.Message);
+				Directory.CreateDirectory(newPath);
 			}
+
+			var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+			var fullPath = Path.Combine(newPath, fileName);
+			using var stream = new FileStream(fullPath, FileMode.Create);
+			file.CopyTo(stream);
+
+			using var engine = new TesseractEngine(Path.Combine(webRootPath, "tessdata"), "eng", EngineMode.Default);
+			using var img = Pix.LoadFromFile(fullPath);
+			var page = engine.Process(img);
+			result = page.GetText();
+
+			return Json(new { imageFile = $"{folderName}/{file.FileName}", text = result });
 		}
-
 	}
 }
