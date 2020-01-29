@@ -23,6 +23,7 @@ import { EntityDataModule } from '@ngrx/data';
 import { entityConfig } from './entity.metadata';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { StoryFilesComponent } from './story-files/story-files.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { environment } from '../environments/environment';
     HomeComponent,
     StoryEditComponent,
     StoryListComponent,
+    StoryFilesComponent,
     StoryActionCellRendererComponent
   ],
   imports: [

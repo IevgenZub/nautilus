@@ -26,6 +26,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+    <PackageReference Include="Tesseract" Version="3.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,6 +42,30 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\entity.metadata.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Upload\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\tessdata\ara.cube.bigrams" />
+    <None Include="wwwroot\tessdata\ara.cube.fold" />
+    <None Include="wwwroot\tessdata\ara.cube.lm" />
+    <None Include="wwwroot\tessdata\ara.cube.nn" />
+    <None Include="wwwroot\tessdata\ara.cube.params" />
+    <None Include="wwwroot\tessdata\ara.cube.size" />
+    <None Include="wwwroot\tessdata\ara.cube.word-freq" />
+    <None Include="wwwroot\tessdata\ara.traineddata" />
+    <None Include="wwwroot\tessdata\eng.cube.bigrams" />
+    <None Include="wwwroot\tessdata\eng.cube.fold" />
+    <None Include="wwwroot\tessdata\eng.cube.lm" />
+    <None Include="wwwroot\tessdata\eng.cube.nn" />
+    <None Include="wwwroot\tessdata\eng.cube.params" />
+    <None Include="wwwroot\tessdata\eng.cube.size" />
+    <None Include="wwwroot\tessdata\eng.cube.word-freq" />
+    <None Include="wwwroot\tessdata\eng.tesseract_cube.nn" />
+    <None Include="wwwroot\tessdata\eng.traineddata" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
