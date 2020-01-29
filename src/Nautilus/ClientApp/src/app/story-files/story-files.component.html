@@ -1,17 +1,16 @@
-<p>Upload Document</p>
 <input #file type="file" multiple (change)="upload(file.files)" />
 <br />
 <span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
   {{progress}}%
 </span>
-
+<br />
 <div class="row">
   <div class="col">
-    <img style="max-width:100%;height:auto;" [src]="imageFile" />
+    <img style="max-width:100%;height:auto;" [src]="story.titleImageUrl" />
   </div>
   <div class="col">
-    <span style="font-weight:bold;color:green;" *ngIf="text">
-      {{text}}
-    </span>
+    <label>
+      {{ story.content }}
+    </label>
   </div>
 </div>

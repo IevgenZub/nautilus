@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { HttpClient, HttpRequest, HttpEventType } from '@angular/common/http';
+import { Story } from '../story';
 
 @Component({
   selector: 'app-story-files',
@@ -7,10 +8,10 @@ import { HttpClient, HttpRequest, HttpEventType } from '@angular/common/http';
   styleUrls: ['./story-files.component.css']
 })
 export class StoryFilesComponent {
-  public progress: number;
-  public text: string;
-  public imageFile: string;
-
+  progress: number;
+  imageFile: string;
+  @Input() story: Story;
+  @Output() public onUploadFinished = new EventEmitter();
   constructor(private http: HttpClient) { }
 
   upload(files) {
@@ -24,7 +25,7 @@ export class StoryFilesComponent {
       formData.append(file.name, file);
     }
       
-    const uploadReq = new HttpRequest('POST', 'api/story/files', formData, {
+    const uploadReq = new HttpRequest('POST', `api/story/${this.story.id}/files`, formData, {
       reportProgress: true,
     });
 
@@ -33,8 +34,7 @@ export class StoryFilesComponent {
         this.progress = Math.round(100 * event.loaded / event.total);
       }
       else if (event.type === HttpEventType.Response) {
-        this.text = (<any>event.body).text;
-        this.imageFile = (<any>event.body).imageFile;
+        this.onUploadFinished.emit(event.body);
       }
     });
   }

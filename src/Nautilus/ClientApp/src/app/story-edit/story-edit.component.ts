@@ -42,17 +42,26 @@ export class StoryEditComponent implements OnInit  {
         this.stories$.subscribe(stories => {
           this.story = stories.filter(s => s.id == id)[0];
           if (this.story) {
-            this._name = this.story.name;
-            this.storyForm.setValue({ id: this.story.id, name: this.story.name });
+            this.setForm(this.story);
           }
         });
       } else {
         this.story = new Story();
         this.story.id = 0;
         this.story.name = 'New Story';
-        this._name = this.story.name;
-        this.storyForm.setValue({ id: this.story.id, name: this.story.name });
+        this.story.content = '';
+        this.story.titleImageUrl = '';
+        this.setForm(this.story);
+        this.onSubmit(this.story);
       }
+    });
+  }
+
+  setForm(story: Story) {
+    this._name = story.name;
+    this.storyForm.setValue({
+      id: story.id,
+      name: story.name
     });
   }
 
@@ -79,5 +88,11 @@ export class StoryEditComponent implements OnInit  {
 
   navigateToList() {
     this.router.navigate(['/story-list']);
+  }
+
+  uploadFinished = (event) => {
+    this.story.content = event.content;
+    this.story.titleImageUrl = event.file;
+    this.onSubmit(this.story);
   }
 }

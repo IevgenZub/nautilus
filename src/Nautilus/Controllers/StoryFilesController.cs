@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Nautilus.Data;
 using Tesseract;
 
 namespace FileUploadAngular5WithAsp.NetCore.Controllers
@@ -12,16 +14,16 @@ namespace FileUploadAngular5WithAsp.NetCore.Controllers
 	{
 		private IWebHostEnvironment _hostingEnvironment;
 
-		public StoryFilesController(IWebHostEnvironment hostingEnvironment)
+		public StoryFilesController(ApplicationDbContext context, IWebHostEnvironment hostingEnvironment)
 		{
 			_hostingEnvironment = hostingEnvironment;
 		}
 
-		[HttpPost("api/story/files"), DisableRequestSizeLimit]
-		public ActionResult UploadFile()
+		[HttpPost("api/story/{storyId:int}/files"), DisableRequestSizeLimit]
+		public ActionResult UploadFile(int storyId)
 		{
-			const string folderName = "Upload";
 			string result;
+			var folderName = $"Upload/{storyId}";
 			var file = Request.Form.Files[0];
 			var webRootPath = _hostingEnvironment.WebRootPath;
 			var newPath = Path.Combine(webRootPath, folderName);
@@ -46,7 +48,7 @@ namespace FileUploadAngular5WithAsp.NetCore.Controllers
 			var page = engine.Process(img);
 			result = page.GetText();
 
-			return Json(new { imageFile = $"{folderName}/{file.FileName}", text = result });
+			return Json(new { content = result, file = $"{folderName}/{fileName}" });
 		}
 	}
 }

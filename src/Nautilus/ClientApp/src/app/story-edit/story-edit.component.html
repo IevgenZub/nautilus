@@ -42,4 +42,4 @@
   </div>
 </div>
 
-<app-story-files></app-story-files>
+<app-story-files (onUploadFinished)="uploadFinished($event)" *ngIf="story" [story]="story"></app-story-files>
