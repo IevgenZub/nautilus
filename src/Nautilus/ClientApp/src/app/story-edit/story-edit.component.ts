@@ -67,6 +67,9 @@ export class StoryEditComponent implements OnInit  {
 
   onSubmit(story: Story) {
     story.lastUpdated = new Date();
+    story.content = this.story.content;
+    story.titleImageUrl = this.story.titleImageUrl;
+
     if (story.id == 0) {
       this.storyService.add(story).subscribe(s =>
         this.router.navigate(['/story-edit'], { queryParams: { id: s.id } }));

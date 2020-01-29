@@ -20,7 +20,7 @@
               </div>
               <div class="col-3">
                 <button type="submit" class="btn btn-primary" style="margin-right:5px;" [disabled]="!storyForm.valid">
-                  <fa-icon  [icon]="faCheck"></fa-icon>
+                  <fa-icon [icon]="faCheck"></fa-icon>
                 </button>
                 <button class="btn btn-secondary" (click)="cancelNameClick()">
                   <fa-icon [icon]="faTimes"></fa-icon>
@@ -43,3 +43,14 @@
 </div>
 
 <app-story-files (onUploadFinished)="uploadFinished($event)" *ngIf="story" [story]="story"></app-story-files>
+
+<div class="row">
+  <div class="col">
+    <img style="max-width:100%;height:auto;"  *ngIf="story" [src]="story.titleImageUrl" />
+  </div>
+  <div class="col">
+    <label *ngIf="story">
+      {{ story.content }}
+    </label>
+  </div>
+</div>
