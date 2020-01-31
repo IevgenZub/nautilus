@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -22,33 +23,36 @@ namespace FileUploadAngular5WithAsp.NetCore.Controllers
 		[HttpPost("api/story/{storyId:int}/files"), DisableRequestSizeLimit]
 		public ActionResult UploadFile(int storyId)
 		{
-			string result;
+			var result = new List<object>();
 			var folderName = $"Upload/{storyId}";
-			var file = Request.Form.Files[0];
-			var webRootPath = _hostingEnvironment.WebRootPath;
-			var newPath = Path.Combine(webRootPath, folderName);
-
-			if (file.Length == 0)
+			foreach (var file in Request.Form.Files)
 			{
-				throw new ArgumentOutOfRangeException("File is empty");
+				var webRootPath = _hostingEnvironment.WebRootPath;
+				var newPath = Path.Combine(webRootPath, folderName);
+
+				if (file.Length == 0)
+				{
+					throw new ArgumentOutOfRangeException("File is empty");
+				}
+
+				if (!Directory.Exists(newPath))
+				{
+					Directory.CreateDirectory(newPath);
+				}
+
+				var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+				var fullPath = Path.Combine(newPath, fileName);
+				using var stream = new FileStream(fullPath, FileMode.Create);
+				file.CopyTo(stream);
+
+				using var engine = new TesseractEngine(Path.Combine(webRootPath, "tessdata"), "eng", EngineMode.Default);
+				using var img = Pix.LoadFromFile(fullPath);
+				var page = engine.Process(img);
+
+				result.Add(new { text = page.GetText(), file = $"{folderName}/{file.FileName}" });
 			}
 
-			if (!Directory.Exists(newPath))
-			{
-				Directory.CreateDirectory(newPath);
-			}
-
-			var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-			var fullPath = Path.Combine(newPath, fileName);
-			using var stream = new FileStream(fullPath, FileMode.Create);
-			file.CopyTo(stream);
-
-			using var engine = new TesseractEngine(Path.Combine(webRootPath, "tessdata"), "eng", EngineMode.Default);
-			using var img = Pix.LoadFromFile(fullPath);
-			var page = engine.Process(img);
-			result = page.GetText();
-
-			return Json(new { content = result, file = $"{folderName}/{fileName}" });
+			return Json(result);
 		}
 	}
 }

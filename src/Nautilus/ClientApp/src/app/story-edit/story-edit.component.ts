@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 export class StoryEditComponent implements OnInit  {
   stories$: Observable<Story[]>;
   story: Story;
+  files: [];
   storyForm: FormGroup;
   nameEditMode: boolean = false;
   hover: boolean = false;
@@ -43,6 +44,7 @@ export class StoryEditComponent implements OnInit  {
           this.story = stories.filter(s => s.id == id)[0];
           if (this.story) {
             this.setForm(this.story);
+            this.files = JSON.parse(this.story.content);
           }
         });
       } else {
@@ -68,7 +70,6 @@ export class StoryEditComponent implements OnInit  {
   onSubmit(story: Story) {
     story.lastUpdated = new Date();
     story.content = this.story.content;
-    story.titleImageUrl = this.story.titleImageUrl;
 
     if (story.id == 0) {
       this.storyService.add(story).subscribe(s =>
@@ -94,8 +95,8 @@ export class StoryEditComponent implements OnInit  {
   }
 
   uploadFinished = (event) => {
-    this.story.content = event.content;
-    this.story.titleImageUrl = event.file;
+    this.files = event;
+    this.story.content = JSON.stringify(event);
     this.onSubmit(this.story);
   }
 }
